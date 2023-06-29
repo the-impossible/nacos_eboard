@@ -10,6 +10,8 @@ from django.views import View
 from eBoard_auth.serializer import *
 
 # Create your views here.
+
+
 class RegisterView(generics.CreateAPIView):
 
     """This View create an account for the user"""
@@ -21,16 +23,18 @@ class RegisterView(generics.CreateAPIView):
         super().create(request, *args, **kwargs)
         return Response(status=status.HTTP_201_CREATED)
 
-class UserView(generics.RetrieveAPIView):
-    """This view returns a user"""
-    serializer_class = UserSerializer
-    permission_classes = (permissions.IsAuthenticated,)
 
-    def get_object(self):
-        return self.request.user
+# class UserView(generics.RetrieveAPIView):
+#     """This view returns a user"""
+#     serializer_class = UserSerializer
+#     permission_classes = (permissions.IsAuthenticated,)
 
-class UpdateUserView(generics.UpdateAPIView):
-    """This view returns a user"""
-    serializer_class = EditUserSerializer
-    queryset = User.objects.all()
-    permission_classes = (permissions.IsAuthenticated,)
+#     def get_object(self):
+#         return self.request.user
+
+
+# class UpdateUserView(generics.UpdateAPIView):
+#     """This view returns a user"""
+#     serializer_class = EditUserSerializer
+#     queryset = User.objects.all()
+#     permission_classes = (permissions.IsAuthenticated,)

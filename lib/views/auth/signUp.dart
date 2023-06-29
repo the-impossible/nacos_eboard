@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nacos_eboard/components/delegatedForm.dart';
 import 'package:nacos_eboard/components/delegatedText.dart';
+import 'package:nacos_eboard/controllers/register_controller.dart';
 import 'package:nacos_eboard/routes/routes.dart';
 import 'package:nacos_eboard/services/constants.dart';
+import 'package:nacos_eboard/utils/formValidation.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -14,6 +16,8 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
+
+  RegisterController registerController = Get.put(RegisterController());
 
   @override
   Widget build(BuildContext context) {
@@ -46,23 +50,29 @@ class _SignUpState extends State<SignUp> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        const delegatedForm(
+                        delegatedForm(
                           fieldName: 'Username',
                           icon: Icons.person,
-                          hintText: 'Reg number',
+                          hintText: 'Username',
                           isSecured: false,
+                          validator: FormValidation.validateUsername,
+                          formController: registerController.usernameController,
                         ),
-                        const delegatedForm(
+                        delegatedForm(
                           fieldName: 'Full name',
                           icon: Icons.person,
                           hintText: 'Enter your Full name',
                           isSecured: false,
+                          validator: FormValidation.validateName,
+                          formController: registerController.nameController,
                         ),
-                        const delegatedForm(
+                        delegatedForm(
                           fieldName: 'Password',
                           icon: Icons.lock,
                           hintText: 'Enter your password',
                           isSecured: true,
+                          validator: FormValidation.validatePassword,
+                          formController: registerController.passwordController,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
@@ -80,7 +90,7 @@ class _SignUpState extends State<SignUp> {
                               ),
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  // registrationController.createAccount();
+                                  registerController.verifyCreateAccount();
                                 }
                               },
                               child: const Text(

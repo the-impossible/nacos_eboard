@@ -48,7 +48,7 @@ class _SignInState extends State<SignIn> {
                   const delegatedForm(
                     fieldName: 'Username',
                     icon: Icons.person,
-                    hintText: 'Enter your File or Reg number',
+                    hintText: 'Enter your username or file No.',
                     isSecured: false,
                   ),
                   const delegatedForm(

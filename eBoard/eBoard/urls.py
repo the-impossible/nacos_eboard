@@ -6,6 +6,7 @@ from django.conf import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("auth/", include("eBoard_auth.urls", namespace="auth"))
 ]
 
 if settings.DEBUG:

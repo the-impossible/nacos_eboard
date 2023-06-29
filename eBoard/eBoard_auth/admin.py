@@ -5,19 +5,22 @@ from eBoard_auth.models import (
     User,
 )
 
+
 class UserAdmin(UserAdmin):
-    list_display = ('name', 'username', 'is_lec', 'is_staff', 'is_superuser', 'date_joined', 'last_login', 'is_active',)
+    list_display = ('name', 'username', 'is_lec', 'is_staff',
+                    'is_superuser', 'date_joined', 'last_login', 'is_active',)
     search_fields = ('username',)
     ordering = ()
     readonly_fields = ('date_joined', 'last_login',)
-    add_fieldsets = (
-            (None, {'fields': ( 'name', 'is_staff', 'is_superuser',)}
-        ),
-    )
+    # add_fieldsets = (
+    #         (None, {'fields': ( 'name', 'username', 'password', 'is_lec',)}
+    #     ),
+    # )
 
     filter_horizontal = ()
     list_filter = ()
     fieldsets = ()
+
 
 # Register your models here.
 admin.site.register(User, UserAdmin)
