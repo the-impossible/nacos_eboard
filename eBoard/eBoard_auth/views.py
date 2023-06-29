@@ -24,13 +24,13 @@ class RegisterView(generics.CreateAPIView):
         return Response(status=status.HTTP_201_CREATED)
 
 
-# class UserView(generics.RetrieveAPIView):
-#     """This view returns a user"""
-#     serializer_class = UserSerializer
-#     permission_classes = (permissions.IsAuthenticated,)
+class UserView(generics.RetrieveAPIView):
+    """This view returns a user"""
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
-#     def get_object(self):
-#         return self.request.user
+    def get_object(self):
+        return self.request.user
 
 
 # class UpdateUserView(generics.UpdateAPIView):

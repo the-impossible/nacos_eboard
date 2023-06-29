@@ -1,5 +1,3 @@
-// import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -31,6 +29,7 @@ class LoginController extends GetxController {
         'password': passwordController.text
       });
 
+      print("object: ${usernameController.text} ${passwordController.text}");
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {

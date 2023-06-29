@@ -9,6 +9,13 @@ class FormValidation {
     return null;
   }
 
+  static String? vPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is Required!';
+    }
+    return null;
+  }
+
   static String? validateName(String? value) {
     if (value == null || value.isEmpty) {
       return 'Full name is Required!';
@@ -22,6 +29,13 @@ class FormValidation {
     }
     if (value.length < 6) {
       return 'Username should be at least 6 characters!';
+    }
+    return null;
+  }
+
+  static String? vUsername(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Username is Required!';
     }
     return null;
   }
