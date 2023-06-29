@@ -1,25 +1,25 @@
 
+from datetime import timedelta
 from pathlib import Path
-import os
 from decouple import config
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
-STATIC_DIR = os.path.join(BASE_DIR, 'Static')
 
+SECRET_KEY = config('SECRET_KEY')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*', '192.168.43.193']
-
 
 # Application definition
 
@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
+    "eBoard_auth",
 ]
 
 MIDDLEWARE = [
@@ -44,6 +45,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+AUTH_USER_MODEL = "eBoard_auth.User"
 ROOT_URLCONF = "eBoard.urls"
 
 TEMPLATES = [
@@ -80,12 +82,12 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    # {
+    #     "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    # },
+    # {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
+    # {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
+    # {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
 
 
@@ -108,7 +110,7 @@ MEDIA_URL = '/media/'
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [STATIC_DIR,]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'Static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 REST_FRAMEWORK = {

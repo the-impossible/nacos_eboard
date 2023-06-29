@@ -1,14 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-
+import uuid
 # Create your models here.
+
+
 class UserManager(BaseUserManager):
     """ Extending the BaseUserManager"""
 
-    def create_user(self, username, name, password=None):
+    def create_user(self, username, name, is_lec=None, password=None):
         """Creates a user account"""
 
-        #creates a user with the parameters
+        # creates a user with the parameters
         if not username:
             raise ValueError('Username is required!')
 
@@ -18,9 +20,14 @@ class UserManager(BaseUserManager):
         if password is None:
             raise ValueError('Password is required!')
 
+        if is_lec is None:
+            raise ValueError('Account Type is required!')
+
         user = self.model(
-            username = username.lower().strip(),
-            name = name.title().strip(),
+            username=username.lower().strip(),
+            name=name.title().strip(),
+            is_lec=is_lec,
+
         )
 
         user.set_password(password)
@@ -30,7 +37,14 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, username, name, password=None):
         """Creates a superuser account"""
-        user = self.create_user(username, name, password)
+
+        user = self.create_user(
+            username=username,
+            name=name,
+            is_lec=False,
+            password=password
+        )
+
         user.is_staff = True
         user.is_superuser = True
         user.is_active = True
@@ -41,21 +55,24 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     """Creates a User"""
+    user_id = models.UUIDField(
+        default=uuid.uuid4, primary_key=True, unique=True, editable=False)
     name = models.CharField(max_length=100)
     username = models.CharField(max_length=100, unique=True, db_index=True)
-    pic = models.ImageField(default='img/user.png', null=True, blank=True, upload_to='uploads/profile/')
+    is_lec = models.BooleanField(default=False)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    date_joined = models.DateTimeField(verbose_name='date_joined', auto_now_add=True)
-    last_login = models.DateTimeField(verbose_name='last_login', auto_now=True, null=True)
+    date_joined = models.DateTimeField(
+        verbose_name='date_joined', auto_now_add=True)
+    last_login = models.DateTimeField(
+        verbose_name='last_login', auto_now=True, null=True)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['name',]
 
     objects = UserManager()
-
 
     def __str__(self):
         return f'{self.username}'
@@ -69,7 +86,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def has_module_perms(self, app_label):
         return True
-
 
     class Meta:
         """Meta data for the class"""
