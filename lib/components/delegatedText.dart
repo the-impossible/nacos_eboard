@@ -25,9 +25,9 @@ class DelegatedText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       (truncate == true)
-          ? truncateString(text, 13)
+          ? truncateString(text, 10)
           : (overflow == true)
-              ? truncateString(text, 50)
+              ? truncateString(text, 45)
               : text,
       softWrap: true,
       style: TextStyle(

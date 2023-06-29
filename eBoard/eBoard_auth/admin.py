@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 
 from eBoard_auth.models import (
     User,
+    Notification,
 )
 
 
@@ -22,5 +23,20 @@ class UserAdmin(UserAdmin):
     fieldsets = ()
 
 
+class NoticeAdmin(admin.ModelAdmin):
+
+    list_display = ('title', 'receiver',
+                    'description', 'date_created', 'created_by')
+    search_fields = ('title', 'receiver')
+    ordering = ('date_created',)
+    raw_id_fields = ['created_by']
+
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+
+
 # Register your models here.
 admin.site.register(User, UserAdmin)
+# admin.site.register(Notification)
+admin.site.register(Notification, NoticeAdmin)

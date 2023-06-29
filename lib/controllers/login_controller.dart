@@ -29,15 +29,13 @@ class LoginController extends GetxController {
         'password': passwordController.text
       });
 
-      print("object: ${usernameController.text} ${passwordController.text}");
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
         tokenController.token =
             tokenFromJson(await response.stream.bytesToString());
 
-        ProfileController profileController = Get.put(ProfileController());
-        profileController.onInit();
+        Get.put(ProfileController());
         usernameController.clear();
         passwordController.clear();
       } else {

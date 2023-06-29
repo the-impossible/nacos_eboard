@@ -91,3 +91,28 @@ class User(AbstractBaseUser, PermissionsMixin):
         """Meta data for the class"""
         db_table = 'Users'
         verbose_name_plural = 'Users'
+
+
+class Notification(models.Model):
+    send_to = (
+        ('student', 'Student'),
+        ('staff', 'Staff'),
+        ('staff and student', 'Staff and Student'),
+    )
+    created_by = models.ForeignKey(
+        to='User', on_delete=models.CASCADE, blank=True, null=True, related_name="created_by")
+    title = models.CharField(max_length=100, blank=True, null=True)
+    image = models.ImageField(null=True, upload_to='uploads/')
+    file = models.FileField(upload_to='uploads/')
+    receiver = models.CharField(
+        max_length=20, choices=send_to, blank=True, null=True)
+    description = models.TextField(max_length=1000, null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'Notifications'
+        db_table = 'Notifications'
+
+    def __str__(self):
+        return f'CREATED: {self.created_by} | RECEIVED: {self.receiver}'
+    

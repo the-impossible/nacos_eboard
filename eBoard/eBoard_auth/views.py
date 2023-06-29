@@ -33,6 +33,27 @@ class UserView(generics.RetrieveAPIView):
         return self.request.user
 
 
+class AllNoticeView(generics.ListAPIView):
+    """This view gets all driver request history"""
+    serializer_class = AllNoticeSerializers
+    permission_classes = (permissions.IsAuthenticated,)
+    model = Notification
+    queryset = Notification.objects.all()
+
+    def get_queryset(self):
+        receiver = ''
+        user = self.request.user
+        if user.is_lec:
+            receiver = 'Staff'
+        else:
+            receiver = 'Student'
+
+        try:
+            return Notification.objects.filter(receiver__icontains=receiver).order_by('-date_created')
+        except AttributeError:
+            return None
+
+
 # class UpdateUserView(generics.UpdateAPIView):
 #     """This view returns a user"""
 #     serializer_class = EditUserSerializer

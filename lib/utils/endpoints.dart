@@ -8,5 +8,7 @@ class AuthEndPoints {
   final String signOut = 'auth/logout/';
   final String signUp = 'auth/register/';
   final String profile = 'auth/getUser/';
+  final String allNotice = 'auth/allNotice/';
+
   final String updateProfile = 'auth/updateProfile/';
 }
