@@ -22,4 +22,6 @@ urlpatterns = [
     path('getNotice/<str:note_id>', GetNoticeView.as_view(), name='getNotice'),
     path("updateProfile/<str:pk>", UpdateUserView.as_view(), name="updateProfile"),
 
+    path("changePassword/<str:pk>", ChangePasswordView.as_view(), name="changePassword"),
+
 ]

@@ -35,7 +35,8 @@ class LoginController extends GetxController {
         tokenController.token =
             tokenFromJson(await response.stream.bytesToString());
 
-        Get.put(ProfileController());
+        ProfileController profileController = Get.put(ProfileController());
+        profileController.onInit();
         usernameController.clear();
         passwordController.clear();
       } else {

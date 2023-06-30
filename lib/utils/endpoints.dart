@@ -12,4 +12,5 @@ class AuthEndPoints {
   final String allNotice = 'auth/allNotice/';
   final String getNotice = 'auth/getNotice/';
   final String updateProfile = 'auth/updateProfile/';
+  final String changePassword = 'auth/changePassword/';
 }
