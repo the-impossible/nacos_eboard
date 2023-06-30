@@ -3,34 +3,31 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:nacos_eboard/components/delegatedSnackBar.dart';
 import 'package:nacos_eboard/controllers/tokenController.dart';
-import 'package:nacos_eboard/models/user_profile.dart';
+import 'package:nacos_eboard/models/notice_detail.dart';
 import 'package:nacos_eboard/routes/routes.dart';
 import 'package:nacos_eboard/utils/endpoints.dart';
 import 'package:nacos_eboard/utils/loading.dart';
 
-class ProfileController extends GetxController {
-  UserProfile? userProfile;
+class NoteDetailController extends GetxController {
+  NoticeDetail? noticeDetail;
+  String? noteID;
 
-  @override
-  void onInit() {
-    super.onInit();
+  processGetNotice() async {
     Get.showOverlay(
-        asyncFunction: () => getProfile(), loadingWidget: const Loading());
+        asyncFunction: () => getNoticeDetails(),
+        loadingWidget: const Loading());
   }
 
-  var isLoading = false.obs;
-
-  Future<void> getProfile() async {
+  Future<void> getNoticeDetails() async {
     TokenController tokenController = Get.put(TokenController());
-
     try {
       var headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${tokenController.token!.access}'
       };
 
-      var url =
-          Uri.parse(APIEndPoints.baseURL + APIEndPoints.authEndPoints.profile);
+      var url = Uri.parse(
+          APIEndPoints.baseURL + APIEndPoints.authEndPoints.getNotice + noteID!);
 
       var request = http.MultipartRequest('GET', url);
 
@@ -39,11 +36,10 @@ class ProfileController extends GetxController {
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
-        userProfile =
-            userProfileFromJson(await response.stream.bytesToString());
-        isLoading(true);
-        // route to home page
-        Get.offNamed(Routes.home);
+
+        noticeDetail = noticeDetailFromJson(await response.stream.bytesToString());
+        Get.toNamed(Routes.notice);
+
       } else {
         ScaffoldMessenger.of(Get.context!)
             .showSnackBar(delegatedSnackBar("Error: ", false));
@@ -51,8 +47,6 @@ class ProfileController extends GetxController {
     } catch (e) {
       ScaffoldMessenger.of(Get.context!)
           .showSnackBar(delegatedSnackBar("Error: ${e.toString()}", false));
-    } finally {
-      isLoading(false);
     }
   }
 }

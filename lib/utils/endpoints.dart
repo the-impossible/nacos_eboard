@@ -1,5 +1,6 @@
 class APIEndPoints {
   static const String baseURL = 'http://192.168.43.193:8000/';
+  static const String fileURL = 'http://192.168.43.193:8000';
   static final AuthEndPoints authEndPoints = AuthEndPoints();
 }
 
@@ -9,6 +10,6 @@ class AuthEndPoints {
   final String signUp = 'auth/register/';
   final String profile = 'auth/getUser/';
   final String allNotice = 'auth/allNotice/';
-
+  final String getNotice = 'auth/getNotice/';
   final String updateProfile = 'auth/updateProfile/';
 }

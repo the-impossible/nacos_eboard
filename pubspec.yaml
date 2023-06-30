@@ -41,6 +41,8 @@ dependencies:
   fluttertoast: ^8.2.2
   get: ^4.6.5
   http: ^0.13.5
+  intl: ^0.18.1
+  flutter_file_downloader: ^1.1.2
 
 dev_dependencies:
   flutter_test:

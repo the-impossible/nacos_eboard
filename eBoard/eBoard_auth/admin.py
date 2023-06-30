@@ -26,7 +26,7 @@ class UserAdmin(UserAdmin):
 class NoticeAdmin(admin.ModelAdmin):
 
     list_display = ('title', 'receiver',
-                    'description', 'date_created', 'created_by')
+                    'description', 'date_created', 'created_by', 'image', 'file')
     search_fields = ('title', 'receiver')
     ordering = ('date_created',)
     raw_id_fields = ['created_by']

@@ -115,4 +115,3 @@ class Notification(models.Model):
 
     def __str__(self):
         return f'CREATED: {self.created_by} | RECEIVED: {self.receiver}'
-    

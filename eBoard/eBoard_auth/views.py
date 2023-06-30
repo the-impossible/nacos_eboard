@@ -53,9 +53,22 @@ class AllNoticeView(generics.ListAPIView):
         except AttributeError:
             return None
 
+class GetNoticeView(generics.RetrieveAPIView):
+    """This view returns a notice request"""
+    serializer_class = NoticeDetailSerializers
+    permission_classes = (permissions.IsAuthenticated,)
 
-# class UpdateUserView(generics.UpdateAPIView):
-#     """This view returns a user"""
-#     serializer_class = EditUserSerializer
-#     queryset = User.objects.all()
-#     permission_classes = (permissions.IsAuthenticated,)
+    def get(self, request, note_id):
+        try:
+            note = Notification.objects.get(id=note_id)
+            serializers = NoticeDetailSerializers(note)
+            return Response(serializers.data)
+        except Notification.DoesNotExist:
+            return Response(status = status.HTTP_400_BAD_REQUEST)
+
+
+class UpdateUserView(generics.UpdateAPIView):
+    """This view returns a user"""
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    permission_classes = (permissions.IsAuthenticated,)

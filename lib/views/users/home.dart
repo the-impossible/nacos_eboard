@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nacos_eboard/components/delegatedText.dart';
 import 'package:nacos_eboard/controllers/get_notice_controller.dart';
+import 'package:nacos_eboard/controllers/note_detail_controller.dart';
 import 'package:nacos_eboard/models/all_notice.dart';
 import 'package:nacos_eboard/routes/routes.dart';
 import 'package:nacos_eboard/services/constants.dart';
@@ -15,6 +16,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   GetNoticeController getNoticeController = Get.put(GetNoticeController());
+  NoteDetailController noteDetailController = Get.put(NoteDetailController());
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +120,10 @@ class _HomeState extends State<Home> {
                                         final noticeData = allNotice[index];
                                         return InkWell(
                                           onTap: () {
-                                            Get.toNamed(Routes.notice);
+                                            noteDetailController.noteID =
+                                                noticeData.id;
+                                            noteDetailController
+                                                .processGetNotice();
                                           },
                                           child: Container(
                                             width: size.width * .43,

@@ -1,6 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:get/get.dart';
 import 'package:nacos_eboard/components/delegatedText.dart';
+import 'package:nacos_eboard/controllers/note_detail_controller.dart';
 import 'package:nacos_eboard/services/constants.dart';
+import 'package:nacos_eboard/utils/endpoints.dart';
 
 class Notice extends StatefulWidget {
   const Notice({super.key});
@@ -10,6 +15,7 @@ class Notice extends StatefulWidget {
 }
 
 class _NoticeState extends State<Notice> {
+  NoteDetailController noteDetailController = Get.put(NoteDetailController());
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -35,7 +41,7 @@ class _NoticeState extends State<Notice> {
               Center(
                 child: DelegatedText(
                   fontSize: 20,
-                  text: '23 June, 2023',
+                  text: noteDetailController.noticeDetail!.dateCreated,
                   color: Constants.tertiaryColor,
                   fontName: 'Sub',
                 ),
@@ -44,7 +50,7 @@ class _NoticeState extends State<Notice> {
                 padding: const EdgeInsets.only(top: 18.0),
                 child: DelegatedText(
                   fontSize: 23,
-                  text: 'How to redesign a 175-year-old Newspaper',
+                  text: noteDetailController.noticeDetail!.title,
                   color: Constants.primaryColor,
                   fontName: 'Main',
                 ),
@@ -57,9 +63,7 @@ class _NoticeState extends State<Notice> {
                 child: DelegatedText(
                   fontSize: 18,
                   align: TextAlign.justify,
-                  text:
-                      'All the staff presence is required at the hall of meeting as soon as possible because' *
-                          1,
+                  text: noteDetailController.noticeDetail!.description,
                   color: Constants.tertiaryColor,
                 ),
               ),
@@ -89,15 +93,24 @@ class _NoticeState extends State<Notice> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            "assets/noImage.png",
-                            width: 130,
-                            height: 120,
-                          ),
+                          (noteDetailController.noticeDetail!.img.isNotEmpty)
+                              ? Image.memory(
+                                  noteDetailController.noticeDetail!.img,
+                                  width: 130,
+                                  height: 120,
+                                )
+                              : Image.asset(
+                                  'assets/noImage.png',
+                                  width: 130,
+                                  height: 120,
+                                ),
                           DelegatedText(
                             fontSize: 13,
                             align: TextAlign.justify,
-                            text: 'No Image Attached',
+                            text: (noteDetailController
+                                    .noticeDetail!.img.isNotEmpty)
+                                ? 'Notice image'
+                                : 'No Image Attached',
                             color: Constants.tertiaryColor,
                           ),
                         ],
@@ -128,15 +141,39 @@ class _NoticeState extends State<Notice> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            "assets/noFile.png",
-                            width: 130,
-                            height: 120,
-                          ),
+                          (noteDetailController.noticeDetail!.docs.isNotEmpty)
+                              ? InkWell(
+                                  onTap: () {
+                                    print(
+                                        "oOBJ: ${APIEndPoints.fileURL}${noteDetailController.noticeDetail!.file}");
+                                    FileDownloader.downloadFile(
+                                        url:
+                                            "http://192.168.43.193:8000/media/uploads/2021-2022_Regular_Calendar_3sfOgx5.docx",
+                                        name: "file",
+                                        onDownloadCompleted: (path) {
+                                          final File file = File(path);
+                                          print("object: $file");
+                                          //This will be the path of the downloaded file
+                                        });
+                                  },
+                                  child: Image.asset(
+                                    'assets/file.png',
+                                    width: 130,
+                                    height: 120,
+                                  ),
+                                )
+                              : Image.asset(
+                                  'assets/noFile.png',
+                                  width: 130,
+                                  height: 120,
+                                ),
                           DelegatedText(
                             fontSize: 13,
                             align: TextAlign.justify,
-                            text: 'No File Attached',
+                            text: (noteDetailController
+                                    .noticeDetail!.docs.isNotEmpty)
+                                ? 'Click to download'
+                                : 'No File Attached',
                             color: Constants.tertiaryColor,
                           ),
                         ],

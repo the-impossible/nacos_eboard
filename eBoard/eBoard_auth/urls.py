@@ -19,4 +19,7 @@ urlpatterns = [
     path('getUser/', UserView.as_view(), name='getUser'),
 
     path('allNotice/', AllNoticeView.as_view(), name='allNotice'),
+    path('getNotice/<str:note_id>', GetNoticeView.as_view(), name='getNotice'),
+    path("updateProfile/<str:pk>", UpdateUserView.as_view(), name="updateProfile"),
+
 ]
