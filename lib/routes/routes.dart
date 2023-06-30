@@ -11,6 +11,7 @@ class Routes {
   static String splash = '/';
   static String signUp = '/signUp';
   static String signIn = '/signIn';
+  static String signOut = '/signOut';
   static String home = '/home';
   static String notice = '/notice';
   static String profile = '/profile';

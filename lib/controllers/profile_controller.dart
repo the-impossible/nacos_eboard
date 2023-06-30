@@ -38,6 +38,7 @@ class ProfileController extends GetxController {
 
       http.StreamedResponse response = await request.send();
 
+
       if (response.statusCode == 200) {
         userProfile =
             userProfileFromJson(await response.stream.bytesToString());

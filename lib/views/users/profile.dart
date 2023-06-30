@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nacos_eboard/components/delegatedForm.dart';
 import 'package:nacos_eboard/components/delegatedText.dart';
+import 'package:nacos_eboard/controllers/logout_controller.dart';
 import 'package:nacos_eboard/controllers/profile_controller.dart';
 import 'package:nacos_eboard/controllers/updateProfile_controller.dart';
 import 'package:nacos_eboard/routes/routes.dart';
@@ -19,6 +20,7 @@ class _ProfileState extends State<Profile> {
   UpdateProfileController updateProfileController =
       Get.put(UpdateProfileController());
   ProfileController profileController = Get.put(ProfileController());
+  LogoutController logoutController = Get.put(LogoutController());
 
   final _formKey = GlobalKey<FormState>();
 
@@ -137,7 +139,9 @@ class _ProfileState extends State<Profile> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            logoutController.verifyLogin();
+                          },
                           child: const Text(
                             'Logout',
                             style: TextStyle(
