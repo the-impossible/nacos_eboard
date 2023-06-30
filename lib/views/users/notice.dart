@@ -94,10 +94,30 @@ class _NoticeState extends State<Notice> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           (noteDetailController.noticeDetail!.img.isNotEmpty)
-                              ? Image.memory(
-                                  noteDetailController.noticeDetail!.img,
-                                  width: 130,
-                                  height: 120,
+                              ? GestureDetector(
+                                  onTap: () => showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        contentPadding: EdgeInsets.zero,
+                                        content: SizedBox(
+                                          height: 400,
+                                          width: 500,
+                                          child: Image.memory(
+                                            noteDetailController
+                                                .noticeDetail!.img,
+                                            width: 130,
+                                            height: 120,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  child: Image.memory(
+                                    noteDetailController.noticeDetail!.img,
+                                    width: 130,
+                                    height: 120,
+                                  ),
                                 )
                               : Image.asset(
                                   'assets/noImage.png',
