@@ -48,6 +48,7 @@ class _HomeState extends State<Home> {
           body: RefreshIndicator(
             onRefresh: () => getNoticeController.getAllNotice(),
             child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
