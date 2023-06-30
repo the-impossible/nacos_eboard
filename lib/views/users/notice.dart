@@ -1,11 +1,12 @@
-import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter_file_saver/flutter_file_saver.dart';
+import 'package:nacos_eboard/utils/endpoints.dart';
+import 'package:nacos_eboard/components/delegatedSnackBar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:get/get.dart';
 import 'package:nacos_eboard/components/delegatedText.dart';
 import 'package:nacos_eboard/controllers/note_detail_controller.dart';
 import 'package:nacos_eboard/services/constants.dart';
-import 'package:nacos_eboard/utils/endpoints.dart';
 
 class Notice extends StatefulWidget {
   const Notice({super.key});
@@ -15,6 +16,29 @@ class Notice extends StatefulWidget {
 }
 
 class _NoticeState extends State<Notice> {
+  Future<void> downloadDocument(Uint8List documentData, String fileName) async {
+    try {
+      showDialog(
+        context: Get.context!,
+        barrierDismissible: false,
+        builder: (context) => const Center(child: CircularProgressIndicator()),
+      );
+
+      await FlutterFileSaver().writeFileAsBytes(
+        fileName: fileName,
+        bytes: documentData,
+      );
+      // Show a confirmation message
+      ScaffoldMessenger.of(Get.context!)
+          .showSnackBar(delegatedSnackBar("Document saved successfully", true));
+    } catch (e) {
+      ScaffoldMessenger.of(Get.context!)
+          .showSnackBar(delegatedSnackBar("Error saving document: $e", false));
+    } finally {
+      navigator!.pop(Get.context!);
+    }
+  }
+
   NoteDetailController noteDetailController = Get.put(NoteDetailController());
   @override
   Widget build(BuildContext context) {
@@ -163,18 +187,13 @@ class _NoticeState extends State<Notice> {
                         children: [
                           (noteDetailController.noticeDetail!.docs.isNotEmpty)
                               ? InkWell(
-                                  onTap: () {
-                                    print(
-                                        "oOBJ: ${APIEndPoints.fileURL}${noteDetailController.noticeDetail!.file}");
-                                    FileDownloader.downloadFile(
-                                        url:
-                                            "http://192.168.43.193:8000/media/uploads/2021-2022_Regular_Calendar_3sfOgx5.docx",
-                                        name: "file",
-                                        onDownloadCompleted: (path) {
-                                          final File file = File(path);
-                                          print("object: $file");
-                                          //This will be the path of the downloaded file
-                                        });
+                                  onTap: () async {
+                                    Uri uri = Uri.parse(
+                                        "${APIEndPoints.fileURL}${noteDetailController.noticeDetail!.file}");
+                                    String filePath = uri.pathSegments.last;
+                                    await downloadDocument(
+                                        noteDetailController.noticeDetail!.docs,
+                                        filePath);
                                   },
                                   child: Image.asset(
                                     'assets/file.png',
