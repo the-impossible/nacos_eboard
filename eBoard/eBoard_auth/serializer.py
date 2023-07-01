@@ -78,20 +78,38 @@ class NoticeDetailSerializers(serializers.ModelSerializer):
 
     def get_image(self, user: Notification):
         """IMAGE"""
-        file = default_storage.open(user.image.name, 'rb')
-        data = file.read()
-        file.close()
-        return base64.b64encode(data)
+        if user.image and user.image.path:
+            try:
+                file = default_storage.open(user.image.name, 'rb')
+                data = file.read()
+                file.close()
+                return base64.b64encode(data)
+            except FileNotFoundError:
+                return None
+        else:
+            return None
 
     def get_file(self, user: Notification):
         """IMAGE"""
-        print(f"VERIFYING: {user.file.url}")
-        print(f"VERIFYING: {user.file.path}")
-        file = default_storage.open(user.file.name, 'rb')
-        data = file.read()
-        file.close()
-        return base64.b64encode(data)
-
+        if user.file and user.file.path:
+            try:
+                file = default_storage.open(user.file.path, 'rb')
+                data = file.read()
+                file.close()
+                return base64.b64encode(data).decode('utf-8')
+            except FileNotFoundError:
+                return None
+        else:
+            return None
+        # if user.file.path and user.file:
+        #     print(f"VERIFYING: {user.file.url}")
+        #     print(f"VERIFYING: {user.file.path}")
+        #     file = default_storage.open(user.file.name, 'rb')
+        #     data = file.read()
+        #     file.close()
+        #     return base64.b64encode(data)
+        # else:
+        #     return ''
 
 
 class ChangePassSerializer(serializers.ModelSerializer):
@@ -113,14 +131,16 @@ class ChangePassSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if attrs['password1'] != attrs['password2']:
-            raise serializers.ValidationError(({"password":"Password fields didn't match!"}))
+            raise serializers.ValidationError(
+                ({"password": "Password fields didn't match!"}))
 
         return attrs
 
     def validate_password0(self, value):
         user = self.context['request'].user
         if not user.check_password(value):
-            raise serializers.ValidationError({"password0":"Old password is incorrect!"})
+            raise serializers.ValidationError(
+                {"password0": "Old password is incorrect!"})
         return value
 
     def update(self, instance, validated_data):
@@ -131,4 +151,4 @@ class ChangePassSerializer(serializers.ModelSerializer):
     class Meta:
         """Meta for the UserSerializer"""
         model = User
-        fields = ['password0','password1','password2']
+        fields = ['password0', 'password1', 'password2']

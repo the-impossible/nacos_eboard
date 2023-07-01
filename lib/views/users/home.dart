@@ -20,6 +20,15 @@ class _HomeState extends State<Home> {
   NoteDetailController noteDetailController = Get.put(NoteDetailController());
   DateTime timeBackPressed = DateTime.now();
 
+  Future<List<AllNotice>?>? allNotice;
+
+  Future<List<AllNotice>?> getNotice() async {
+    setState(() {
+      allNotice = getNoticeController.getAllNotice();
+    });
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -46,7 +55,7 @@ class _HomeState extends State<Home> {
         child: Scaffold(
           backgroundColor: Constants.secondaryColor,
           body: RefreshIndicator(
-            onRefresh: () => getNoticeController.getAllNotice(),
+            onRefresh: () => getNotice(),
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
@@ -88,7 +97,9 @@ class _HomeState extends State<Home> {
                       width: size.width,
                       child: SingleChildScrollView(
                         child: FutureBuilder<List<AllNotice>?>(
-                            future: getNoticeController.getAllNotice(),
+                            future: (allNotice == null)
+                                ? getNoticeController.getAllNotice()
+                                : allNotice,
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {

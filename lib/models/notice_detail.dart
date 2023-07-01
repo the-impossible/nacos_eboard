@@ -11,9 +11,9 @@ class NoticeDetail {
   String description;
   String dateCreated;
   String createdBy;
-  String file;
-  Uint8List img;
-  Uint8List docs;
+  dynamic file;
+  dynamic img;
+  dynamic docs;
 
   NoticeDetail({
     required this.id,
@@ -21,9 +21,9 @@ class NoticeDetail {
     required this.description,
     required this.dateCreated,
     required this.createdBy,
-    required this.file,
-    required this.img,
-    required this.docs,
+    this.file,
+    this.img,
+    this.docs,
   });
 
   factory NoticeDetail.fromJson(Map<String, dynamic> json) {
@@ -38,8 +38,8 @@ class NoticeDetail {
       dateCreated: formatted,
       createdBy: json["created_by"],
       file: json["file"],
-      img: base64Decode(json["img"]),
-      docs: base64Decode(json["docs"]),
+      img: (json["img"] == null) ? null : base64Decode(json["img"]),
+      docs: (json["docs"] == null) ? null : base64Decode(json["docs"]),
     );
   }
 
@@ -49,8 +49,8 @@ class NoticeDetail {
         "description": description,
         "date_created": dateCreated,
         "file": file,
-        "img": base64Encode(img),
-        "docs": base64Encode(docs),
+        "img": (img == null) ? null : base64Encode(img!),
+        "docs": (docs == null) ? null : base64Encode(docs!),
       };
 }
 

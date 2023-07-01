@@ -117,7 +117,7 @@ class _NoticeState extends State<Notice> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          (noteDetailController.noticeDetail!.img.isNotEmpty)
+                          (noteDetailController.noticeDetail!.img != null)
                               ? GestureDetector(
                                   onTap: () => showDialog(
                                     context: context,
@@ -129,7 +129,7 @@ class _NoticeState extends State<Notice> {
                                           width: 500,
                                           child: Image.memory(
                                             noteDetailController
-                                                .noticeDetail!.img,
+                                                .noticeDetail!.img!,
                                             width: 130,
                                             height: 120,
                                           ),
@@ -138,7 +138,7 @@ class _NoticeState extends State<Notice> {
                                     },
                                   ),
                                   child: Image.memory(
-                                    noteDetailController.noticeDetail!.img,
+                                    noteDetailController.noticeDetail!.img!,
                                     width: 130,
                                     height: 120,
                                   ),
@@ -152,7 +152,7 @@ class _NoticeState extends State<Notice> {
                             fontSize: 13,
                             align: TextAlign.justify,
                             text: (noteDetailController
-                                    .noticeDetail!.img.isNotEmpty)
+                                    .noticeDetail!.img != null)
                                 ? 'Notice image'
                                 : 'No Image Attached',
                             color: Constants.tertiaryColor,
@@ -185,14 +185,14 @@ class _NoticeState extends State<Notice> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          (noteDetailController.noticeDetail!.docs.isNotEmpty)
+                          (noteDetailController.noticeDetail!.docs != null)
                               ? InkWell(
                                   onTap: () async {
                                     Uri uri = Uri.parse(
                                         "${APIEndPoints.fileURL}${noteDetailController.noticeDetail!.file}");
                                     String filePath = uri.pathSegments.last;
                                     await downloadDocument(
-                                        noteDetailController.noticeDetail!.docs,
+                                        noteDetailController.noticeDetail!.docs!,
                                         filePath);
                                   },
                                   child: Image.asset(
@@ -210,7 +210,7 @@ class _NoticeState extends State<Notice> {
                             fontSize: 13,
                             align: TextAlign.justify,
                             text: (noteDetailController
-                                    .noticeDetail!.docs.isNotEmpty)
+                                    .noticeDetail!.docs != null)
                                 ? 'Click to download'
                                 : 'No File Attached',
                             color: Constants.tertiaryColor,

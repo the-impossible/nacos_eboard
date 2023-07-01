@@ -140,7 +140,31 @@ class _ProfileState extends State<Profile> {
                       children: [
                         TextButton(
                           onPressed: () {
-                            logoutController.verifyLogin();
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('Confirm Logout'),
+                                  content: const Text(
+                                      'Are you sure you want to logout? '),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        logoutController.verifyLogin();
+                                      },
+                                      child: const Text('Log out'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           },
                           child: const Text(
                             'Logout',

@@ -102,8 +102,8 @@ class Notification(models.Model):
     created_by = models.ForeignKey(
         to='User', on_delete=models.CASCADE, blank=True, null=True, related_name="created_by")
     title = models.CharField(max_length=100, blank=True, null=True)
-    image = models.ImageField(null=True, upload_to='uploads/')
-    file = models.FileField(upload_to='uploads/')
+    image = models.ImageField(null=True, blank=True, upload_to='uploads/')
+    file = models.FileField(upload_to='uploads/', null=True, blank=True)
     receiver = models.CharField(
         max_length=20, choices=send_to, blank=True, null=True)
     description = models.TextField(max_length=1000, null=True, blank=True)

@@ -13,10 +13,7 @@ class UserAdmin(UserAdmin):
     search_fields = ('username',)
     ordering = ()
     readonly_fields = ('date_joined', 'last_login',)
-    # add_fieldsets = (
-    #         (None, {'fields': ( 'name', 'username', 'password', 'is_lec',)}
-    #     ),
-    # )
+
 
     filter_horizontal = ()
     list_filter = ()
