@@ -4,12 +4,14 @@ class UserProfile {
   String userId;
   String username;
   String name;
+  String phone;
   bool isLec;
 
   UserProfile({
     required this.userId,
     required this.username,
     required this.name,
+    required this.phone,
     required this.isLec,
   });
 
@@ -17,6 +19,7 @@ class UserProfile {
         userId: json["user_id"],
         username: json["username"],
         name: json["name"],
+        phone: json["phone"],
         isLec: json["is_lec"],
       );
 
@@ -24,6 +27,7 @@ class UserProfile {
         "user_id": userId,
         "username": username,
         "name": name,
+        "phone": phone,
         "is_lec": isLec,
       };
 }

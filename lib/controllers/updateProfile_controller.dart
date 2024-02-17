@@ -11,6 +11,7 @@ import 'profile_controller.dart';
 class UpdateProfileController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
 
   String? userId;
   bool? isLec;
@@ -38,6 +39,7 @@ class UpdateProfileController extends GetxController {
       request.fields.addAll({
         'name': nameController.text,
         'username': usernameController.text,
+        'phone': phoneController.text,
         'is_lec': isLec.toString(),
       });
 
@@ -51,7 +53,6 @@ class UpdateProfileController extends GetxController {
 
         ProfileController profileController = Get.put(ProfileController());
         profileController.getProfile();
-
       } else {
         ScaffoldMessenger.of(Get.context!).showSnackBar(
             delegatedSnackBar(response.reasonPhrase.toString(), false));

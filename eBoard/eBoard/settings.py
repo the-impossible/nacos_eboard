@@ -19,7 +19,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '192.168.43.193']
+ALLOWED_HOSTS = ['*', '192.168.43.106']
 
 # Application definition
 

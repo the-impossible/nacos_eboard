@@ -7,7 +7,7 @@ import uuid
 class UserManager(BaseUserManager):
     """ Extending the BaseUserManager"""
 
-    def create_user(self, username, name, is_lec=None, password=None):
+    def create_user(self, username, name, phone, is_lec=None, password=None):
         """Creates a user account"""
 
         # creates a user with the parameters
@@ -16,6 +16,9 @@ class UserManager(BaseUserManager):
 
         if not name:
             raise ValueError('Fullname is required!')
+
+        if not phone:
+            raise ValueError('Phone Number is required!')
 
         if password is None:
             raise ValueError('Password is required!')
@@ -26,6 +29,7 @@ class UserManager(BaseUserManager):
         user = self.model(
             username=username.lower().strip(),
             name=name.title().strip(),
+            phone=phone,
             is_lec=is_lec,
 
         )
@@ -35,12 +39,13 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, username, name, password=None):
+    def create_superuser(self, username, name, phone, password=None):
         """Creates a superuser account"""
 
         user = self.create_user(
             username=username,
             name=name,
+            phone=phone,
             is_lec=False,
             password=password
         )
@@ -59,6 +64,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=uuid.uuid4, primary_key=True, unique=True, editable=False)
     name = models.CharField(max_length=100)
     username = models.CharField(max_length=100, unique=True, db_index=True)
+    phone = models.CharField(max_length=14, unique=True, db_index=True)
     is_lec = models.BooleanField(default=False)
 
     is_active = models.BooleanField(default=True)

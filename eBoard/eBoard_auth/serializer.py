@@ -19,16 +19,23 @@ class RegisterSerializer(serializers.ModelSerializer):
             queryset=User.objects.all(), message='Username Already Exist')]
     )
 
+    phone = serializers.CharField(
+        required=True,
+        validators=[UniqueValidator(
+            queryset=User.objects.all(), message='Phone Number Already Exist')]
+    )
+
     class Meta:
         """Meta for the UserSerializer"""
         model = User
-        fields = ['user_id', 'username', 'name', 'is_lec', 'password']
+        fields = ['user_id', 'username', 'name', 'phone', 'is_lec', 'password']
 
     def create(self, validated_data):
 
         user = User.objects.create_user(
             validated_data['username'],
             validated_data['name'],
+            validated_data['phone'],
             validated_data['is_lec'],
             validated_data['password']
         )
@@ -45,7 +52,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         """Meta for the UserSerializer"""
         model = User
-        fields = ['user_id', 'username', 'name', 'is_lec']
+        fields = ['user_id', 'username', 'name', 'phone', 'is_lec']
 
 
 class AllNoticeSerializers(serializers.ModelSerializer):

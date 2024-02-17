@@ -67,6 +67,14 @@ class _SignUpState extends State<SignUp> {
                           formController: registerController.nameController,
                         ),
                         delegatedForm(
+                          fieldName: 'Phone',
+                          icon: Icons.call,
+                          hintText: 'Enter your phone number',
+                          validator: FormValidation.validatePhone,
+                          formController: registerController.phoneController,
+                          isSecured: false,
+                        ),
+                        delegatedForm(
                           fieldName: 'Password',
                           icon: Icons.lock,
                           hintText: 'Enter your password',

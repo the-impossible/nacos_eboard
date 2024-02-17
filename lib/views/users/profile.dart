@@ -32,6 +32,8 @@ class _ProfileState extends State<Profile> {
         profileController.userProfile!.name;
     updateProfileController.usernameController.text =
         profileController.userProfile!.username;
+    updateProfileController.phoneController.text =
+        profileController.userProfile!.phone;
   }
 
   @override
@@ -134,6 +136,14 @@ class _ProfileState extends State<Profile> {
                       isSecured: false,
                       validator: FormValidation.validateName,
                       formController: updateProfileController.nameController,
+                    ),
+                    delegatedForm(
+                      fieldName: 'Phone Number',
+                      icon: Icons.call,
+                      hintText: 'Enter your Phone Number',
+                      isSecured: false,
+                      validator: FormValidation.validatePhone,
+                      formController: updateProfileController.phoneController,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

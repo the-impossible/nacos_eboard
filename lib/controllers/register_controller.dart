@@ -13,6 +13,7 @@ class RegisterController extends GetxController {
   TextEditingController usernameController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
 
   verifyCreateAccount() async {
     Get.showOverlay(
@@ -27,6 +28,7 @@ class RegisterController extends GetxController {
       request.fields.addAll({
         'username': usernameController.text.toLowerCase(),
         'name': nameController.text,
+        'phone': phoneController.text,
         'is_lec': 'false',
         'password': passwordController.text,
       });
@@ -37,6 +39,7 @@ class RegisterController extends GetxController {
         usernameController.clear();
         nameController.clear();
         passwordController.clear();
+        phoneController.clear();
 
         ScaffoldMessenger.of(Get.context!).showSnackBar(
             delegatedSnackBar("Account created successfully!", true));

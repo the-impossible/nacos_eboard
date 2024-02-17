@@ -19,7 +19,7 @@ class _SignInState extends State<SignIn> {
   LoginController loginController = Get.put(LoginController());
   final _formKey = GlobalKey<FormState>();
 
-  DateTime timeBackPressed = DateTime.now();  
+  DateTime timeBackPressed = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
